@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Control de Seguridad</title>
+    <style>
+        body { background: #0d1117; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
+        .card { background: #161b22; padding: 40px; border-radius: 20px; display: inline-flex; gap: 50px; border: 1px solid #333; }
+        .led { width: 65px; height: 65px; border-radius: 50%; background: #222; margin: 20px auto; transition: 0.3s; border: 1px solid #444; }
+        #console { background: #000; color: #3fb950; padding: 20px; width: 550px; height: 160px; margin: 30px auto; overflow-y: auto; text-align: left; border-radius: 12px; font-family: monospace; border: 1px solid #333; }
+        input[type=range] { width: 100%; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Centro de Control</h2>
+    <div class="card">
+        <div>SISTEMA<div id="led1" class="led"></div><input type="range" min="0" max="255" value="0" oninput="enviar(1,this.value)"></div>
+        <div>RED<div id="led2" class="led"></div><input type="range" min="0" max="255" value="0" oninput="enviar(2,this.value)"></div>
+    </div>
+    <div id="console">> Terminal lista...<br></div>
+    <script>
+        function enviar(l, v) {
+            fetch(`/set_led?led=${l}&valor=${v}`);
+            let color = (v > 0) ? (l==1 ? "#3fb950" : "#ff7b72") : "#222";
+            let el = document.getElementById("led"+l);
+            el.style.background = color;
+            el.style.boxShadow = (v > 0) ? `0 0 25px ${color}` : "none";
+        }
+        setInterval(() => {
+            fetch('/check_button').then(r => r.text()).then(d => {
+                if (d && d.includes('|')) {
+                    let [m, o] = d.split('|');
+                    const con = document.getElementById("console");
+                    con.innerHTML += "> " + m + "<br>";
+                    con.scrollTop = con.scrollHeight;
+                    let lId = o.includes("1") ? "led1" : "led2";
+                    let color = (lId=="led1" ? "#3fb950" : "#ff7b72");
+                    let el = document.getElementById(lId);
+                    if(o.includes("ON")) {
+                        el.style.background = color;
+                        el.style.boxShadow = `0 0 25px ${color}`;
+                    } else {
+                        el.style.background = "#222";
+                        el.style.boxShadow = "none";
+                    }
+                }
+            });
+        }, 500);
+    </script>
+</body>
+</html>
