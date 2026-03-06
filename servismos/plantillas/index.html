@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Servo Control</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <main class="card">
+    <header class="top">
+      <h1>Control de Servo (0–180)</h1>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div class="status" id="status">Listo</div>
+        <a class="btn" href="/logout" style="text-decoration:none; text-align:center;">Salir</a>
+      </div>
+    </header>
+
+    <section class="controls">
+      <div class="row">
+        <label for="angle">Ángulo</label>
+        <input id="angle" type="range" min="0" max="180" value="90" />
+      </div>
+
+      <div class="row row2">
+        <input id="angleNum" type="number" min="0" max="180" value="90" />
+        <button id="btn0" class="btn">0°</button>
+        <button id="btn90" class="btn">90°</button>
+        <button id="btn180" class="btn">180°</button>
+      </div>
+
+      <div class="row row2" style="grid-template-columns: 1fr 1fr;">
+        <button id="btnDirect" class="btn">Movimiento directo</button>
+        <button id="btnSmooth" class="btn">Movimiento suave 5s (video)</button>
+      </div>
+
+      <p class="hint">
+        En modo “suave 5s” se manda <b>S ángulo</b> al Arduino para que dure ~5 s y coincida con el video.
+      </p>
+
+      <div class="videoBox">
+        <video id="servoVideo" src="/static/multimedia/srv.mp4"
+               muted playsinline preload="auto"></video>
+        <div class="videoHint">Video: static/multimedia/srv.mp4</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
