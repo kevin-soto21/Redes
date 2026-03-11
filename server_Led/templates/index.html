@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Servo Control - UACJ</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <style>
+    /* Estilos rápidos para los LEDs visuales */
+    .led-container { display: flex; justify-content: space-around; margin: 20px 0; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+    .led { width: 30px; height: 30px; border-radius: 50%; background-color: #333; opacity: 0.3; transition: 0.3s; }
+    .led-verde.active { background-color: #2ecc71; opacity: 1; box-shadow: 0 0 15px #2ecc71; }
+    .led-rojo.active { background-color: #e74c3c; opacity: 1; box-shadow: 0 0 15px #e74c3c; }
+    .led-azul.active { background-color: #3498db; opacity: 1; box-shadow: 0 0 15px #3498db; }
+    .led-label { font-size: 0.8rem; text-align: center; color: #666; }
+    
+    .bitacora { margin-top: 20px; font-family: monospace; font-size: 0.85rem; max-height: 150px; overflow-y: auto; background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    .log-entry { border-bottom: 1px solid #ccc; padding: 2px 0; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <header class="top">
+      <h1>Control de Servo (0–180)</h1>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div class="status" id="status">Listo</div>
+        <a class="btn" href="/logout" style="text-decoration:none; text-align:center;">Salir</a>
+      </div>
+    </header>
+
+    <section class="controls">
+      <h3>Estado del Actuador</h3>
+      <div class="led-container">
+        <div><div id="ledV" class="led led-verde"></div><div class="led-label">0° (V)</div></div>
+        <div><div id="ledR" class="led led-rojo"></div><div class="led-label">90° (R)</div></div>
+        <div><div id="ledA" class="led led-azul"></div><div class="led-label">180° (A)</div></div>
+      </div>
+
+      <div class="row">
+        <label for="angle">Ángulo</label>
+        <input id="angle" type="range" min="0" max="180" value="90" />
+      </div>
+
+      <div class="row row2">
+        <input id="angleNum" type="number" min="0" max="180" value="90" />
+        <button id="btn0" class="btn">0°</button>
+        <button id="btn90" class="btn">90°</button>
+        <button id="btn180" class="btn">180°</button>
+      </div>
+
+      <div class="row row2" style="grid-template-columns: 1fr 1fr;">
+        <button id="btnDirect" class="btn">Movimiento directo</button>
+        <button id="btnSmooth" class="btn">Movimiento suave 5s (video)</button>
+      </div>
+
+      <h3>Bitácora de Eventos</h3>
+      <div id="bitacora" class="bitacora">
+        <div class="log-entry">Esperando acciones...</div>
+      </div>
+
+      <p class="hint">
+        En modo “suave 5s” se manda <b>S ángulo</b> al Arduino para que dure ~5 s y coincida con el video.
+      </p>
+
+      <div class="videoBox">
+        <video id="servoVideo" src="/static/multimedia/srv.mp4"
+                muted playsinline preload="auto"></video>
+        <div class="videoHint">Video: static/multimedia/srv.mp4</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
