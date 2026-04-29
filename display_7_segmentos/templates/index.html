@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Display de 7 Segmentos</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Control de Display de 7 Segmentos</h1>
+
+        <p class="descripcion">
+            Selecciona un número del 0 al 9 para mostrarlo en la página web y en el display físico.
+        </p>
+
+        <div class="pantalla">
+            <p>Número seleccionado:</p>
+            <h2 id="numeroSeleccionado">0</h2>
+        </div>
+
+        <div class="botones">
+            <button data-numero="0">0</button>
+            <button data-numero="1">1</button>
+            <button data-numero="2">2</button>
+            <button data-numero="3">3</button>
+            <button data-numero="4">4</button>
+            <button data-numero="5">5</button>
+            <button data-numero="6">6</button>
+            <button data-numero="7">7</button>
+            <button data-numero="8">8</button>
+            <button data-numero="9">9</button>
+        </div>
+
+        <div class="estado">
+            <p id="mensaje">Esperando selección...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
